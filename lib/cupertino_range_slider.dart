@@ -217,7 +217,7 @@ const double _kSliderWidth = 176.0; // Matches Material Design slider.
 const Duration _kDiscreteTransitionDuration = const Duration(milliseconds: 500);
 
 const double _kAdjustmentUnit =
-0.1; // Matches iOS implementation of material slider.
+    0.1; // Matches iOS implementation of material slider.
 
 class _RenderCupertinoSlider extends RenderConstrainedBox {
   _RenderCupertinoSlider({
@@ -240,8 +240,8 @@ class _RenderCupertinoSlider extends RenderConstrainedBox {
         _onMaxChanged = onMaxChanged,
         _textDirection = textDirection,
         super(
-          additionalConstraints: const BoxConstraints.tightFor(
-              width: _kSliderWidth, height: _kSliderHeight)) {
+            additionalConstraints: const BoxConstraints.tightFor(
+                width: _kSliderWidth, height: _kSliderHeight)) {
     _drag = new HorizontalDragGestureRecognizer()
       ..onStart = _handleDragStart
       ..onUpdate = _handleDragUpdate
@@ -424,6 +424,20 @@ class _RenderCupertinoSlider extends RenderConstrainedBox {
 
   @override
   bool hitTestSelf(Offset position) {
+    // If both thumbs are at the same place and at the start or the end
+    if (_minThumbCenter == _maxThumbCenter) {
+      if (_minThumbCenter >=
+          size.width - (CupertinoThumbPainter.radius + _kPadding)) {
+        print('min');
+        pickedThumb = _kMinThumb;
+        return true;
+      } else if (_minThumbCenter <= CupertinoThumbPainter.radius + _kPadding) {
+        print('max');
+        pickedThumb = _kMaxThumb;
+        return true;
+      }
+    }
+
     if ((position.dx - _minThumbCenter).abs() <
         CupertinoThumbPainter.radius + _kPadding) {
       pickedThumb = _kMinThumb;
