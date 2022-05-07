@@ -1,32 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:cupertino_range_slider/cupertino_range_slider.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       title: 'Cupertino Range Slider',
-      theme: new ThemeData(
+      theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: new Text('Range Slider Demo'),
+        title: const Text('Range Slider Demo'),
       ),
       body: Container(
-        margin: EdgeInsets.all(10.0),
+        margin: const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
             RangeSliderItem(
@@ -70,18 +74,18 @@ class RangeSliderItem extends StatefulWidget {
   final String title;
   final int initialMinValue;
   final int initialMaxValue;
-  final ValueChanged<int> onMinValueChanged;
-  final ValueChanged<int> onMaxValueChanged;
+  final ValueChanged<int>? onMinValueChanged;
+  final ValueChanged<int>? onMaxValueChanged;
 
-  const RangeSliderItem({Key key, this.title, this.initialMinValue, this.initialMaxValue, this.onMinValueChanged, this.onMaxValueChanged}) : super(key: key);
+  const RangeSliderItem({Key? key, required this.title, required this.initialMinValue, required this.initialMaxValue, this.onMinValueChanged, this.onMaxValueChanged}) : super(key: key);
 
   @override
   _RangeSliderItemState createState() => _RangeSliderItemState();
 }
 
 class _RangeSliderItemState extends State<RangeSliderItem> {
-  int minValue;
-  int maxValue;
+  late int minValue;
+  late int maxValue;
 
 
   @override
@@ -104,17 +108,13 @@ class _RangeSliderItemState extends State<RangeSliderItem> {
         onMinChanged: (minVal){
           setState(() {
             minValue = minVal.round();
-            if(widget.onMinValueChanged != null) {
-              widget.onMinValueChanged(minValue);
-            }
+            widget.onMinValueChanged?.call(minValue);
           });
         },
         onMaxChanged: (maxVal){
           setState(() {
             maxValue = maxVal.round();
-            if(widget.onMaxValueChanged != null) {
-              widget.onMaxValueChanged(maxValue);
-            }
+            widget.onMaxValueChanged?.call(maxValue);
           });
         },
       ),
@@ -132,7 +132,7 @@ class FilterItemHolder extends StatelessWidget {
   final String value;
   final Widget child;
 
-  FilterItemHolder({Key key, this.title, this.value = '', this.child})
+  const FilterItemHolder({Key? key, required this.title, this.value = '', required this.child})
       : super(key: key);
 
   @override
@@ -162,14 +162,14 @@ class FilterItemHolder extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Color(0xFFFFFFFF),
-            borderRadius: const BorderRadius.all(const Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
           ),
           child: Container(
             height: 47.0,
             child: ConstrainedBox(
-              constraints: BoxConstraints.expand(),
+              constraints: const BoxConstraints.expand(),
               child: child,
             ),
           ),
@@ -178,8 +178,8 @@ class FilterItemHolder extends StatelessWidget {
     );
   }
 
-  final titleTextStyle = TextStyle(
-    color: const Color(0xFF000000),
+  final titleTextStyle = const TextStyle(
+    color: Color(0xFF000000),
     fontSize: 12.0,
     fontWeight: FontWeight.w600,
   );
